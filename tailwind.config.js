@@ -3,7 +3,14 @@ module.exports = {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
   },
-  purge: ['src/**/*.js', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.tsx', 'public/**/*.html'],
+  purge: [
+    'src/**/*.js',
+    'src/**/*.jsx',
+    'src/**/*.ts',
+    'src/**/*.tsx',
+    'public/**/*.html',
+    './node_modules/tailwindcss-dark-mode/prefers-dark.js',
+  ],
   target: 'relaxed',
   prefix: '',
   important: false,
@@ -11,7 +18,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'red-taste': '#eb5757',
+        'blue-bright': '#2F80ED',
       },
     },
     screens: {
@@ -32,7 +39,7 @@ module.exports = {
         200: '#edf2f7',
         300: '#e2e8f0',
         400: '#cbd5e0',
-        500: '#a0aec0',
+        500: '#828282',
         600: '#718096',
         700: '#4a5568',
         800: '#2d3748',
@@ -159,6 +166,8 @@ module.exports = {
       56: '14rem',
       64: '16rem',
       '1w': '470px',
+      larger: '845px',
+      over: '120%',
     },
     backgroundColor: (theme) => theme('colors'),
     backgroundImage: {
@@ -202,6 +211,7 @@ module.exports = {
       md: '0.375rem',
       lg: '0.5rem',
       full: '9999px',
+      large: '12px',
     },
     borderWidth: {
       default: '1px',
@@ -303,6 +313,8 @@ module.exports = {
     inset: {
       0: '0',
       auto: 'auto',
+      '1/2': '50%',
+      over: '180%',
     },
     letterSpacing: {
       tighter: '-0.05em',
@@ -682,7 +694,7 @@ module.exports = {
     appearance: ['responsive'],
     backgroundAttachment: ['responsive'],
     backgroundClip: ['responsive'],
-    backgroundColor: ['responsive', 'hover', 'focus'],
+    backgroundColor: ['dark', 'responsive', 'hover', 'focus'],
     backgroundImage: ['responsive'],
     gradientColorStops: ['responsive', 'hover', 'focus'],
     backgroundOpacity: ['responsive', 'hover', 'focus'],
@@ -787,5 +799,5 @@ module.exports = {
     animation: ['responsive'],
   },
   corePlugins: {},
-  plugins: [],
+  plugins: [require('tailwindcss-dark-mode')()],
 };
