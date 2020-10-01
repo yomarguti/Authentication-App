@@ -1,10 +1,16 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
 
-import profileImage from '../assets/profile.jpg';
+import profilePlaceholder from '../assets/profile-placeholder.svg';
 import Footer from '../components/Footer';
 
+import useUserData from '../hooks/useUserData';
+
 const Profile = (props) => {
+  const {
+    userData: { name, bio, email, phone },
+  } = useUserData(props);
+
   return (
     <div className="flex flex-col sm:items-center">
       <div className="px-5 w-full">
@@ -33,19 +39,23 @@ const Profile = (props) => {
           <ul className="divide-y divide-gray-400">
             <li className="flex justify-between sm:justify-start items-center px-5 h-32">
               <span className="text-gray-500 sm:px-10 sm:w-4/12">PHOTO</span>
-              <img src={profileImage} alt="profile" className="w-24 rounded-lg" />
+              <img src={profilePlaceholder} alt="profile" className="w-24 rounded-lg" />
             </li>
             <li className="flex justify-between sm:justify-start items-center px-5 h-24">
               <span className="text-gray-500 sm:px-10  sm:w-4/12">NAME</span>
-              <span className="text-lg">Yomar Gutierrez</span>
+              <span className="text-lg">{name}</span>
             </li>
             <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
               <span className="text-gray-500 sm:px-10 sm:w-4/12">BIO</span>
-              <span className="text-lg">I am a software developer</span>
+              <span className="text-lg">{bio}</span>
+            </li>
+            <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
+              <span className="text-gray-500 sm:px-10 sm:w-4/12">PHONE</span>
+              <span className="text-lg">{phone}</span>
             </li>
             <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
               <span className="text-gray-500 sm:px-10 sm:w-4/12">EMAIL</span>
-              <span className="text-lg">yomar.guti@gmail.com</span>
+              <span className="text-lg">{email}</span>
             </li>
             <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
               <span className="text-gray-500 sm:px-10 sm:w-4/12">PASSWORD</span>

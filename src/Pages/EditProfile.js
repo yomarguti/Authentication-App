@@ -4,25 +4,55 @@ import NavBar from '../components/NavBar';
 import profileImage from '../assets/profile.jpg';
 import Footer from '../components/Footer';
 
+import useUserData from '../hooks/useUserData';
+
+import api from '../api/index';
+
 const EditProfile = (props) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    bio: '',
-    phone: '',
-    email: '',
-    password: '',
-  });
+  const { userData, setUserData } = useUserData(props);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  const { email, name, phone, bio } = userData;
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-
-    setFormData({ ...formData, [name]: value });
+    setError(null);
+    setUserData({ ...userData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      let updateObject = { email, name, phone, bio };
+
+      if (password !== '') {
+        updateObject = { ...updateObject, password };
+      }
+      const token = JSON.parse(localStorage.getItem('token'));
+      const user = await api.patch(
+        `/users/${userData.id}`,
+        { ...updateObject },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (user) {
+        props.history.push('/me');
+      }
+    } catch (e) {
+      setError(e);
+    }
   };
+
+  const errorMessage = error ? (
+    <div className="absolute top-sligth-over left-0 text-xs text-red-500">
+      Data not saved to database. Try again.
+    </div>
+  ) : null;
 
   return (
     <div className="flex flex-col px-5 sm:items-center">
@@ -56,7 +86,7 @@ const EditProfile = (props) => {
                 type="text"
                 name="name"
                 id="name"
-                value={formData.name}
+                value={name}
                 onChange={handleChange}
                 placeholder="Enter your name..."
                 className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
@@ -70,7 +100,7 @@ const EditProfile = (props) => {
                 name="bio"
                 id="bio"
                 rows="3"
-                value={formData.bio}
+                value={bio}
                 onChange={handleChange}
                 placeholder="Enter your bio..."
                 className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
@@ -84,7 +114,7 @@ const EditProfile = (props) => {
                 type="tel"
                 id="phone"
                 name="phone"
-                value={formData.phone}
+                value={phone}
                 onChange={handleChange}
                 placeholder="Enter your phone..."
                 className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
@@ -98,29 +128,30 @@ const EditProfile = (props) => {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
+                value={email}
                 onChange={handleChange}
                 placeholder="Enter your email..."
                 className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
               />
             </div>
-            <div className="flex flex-col pb-4">
+            <div className="flex flex-col relative">
               <label htmlFor="password" className="pb-1">
                 Password
               </label>
               <input
                 type="password"
                 id="password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 name="password"
                 placeholder="Enter your password..."
                 className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
               />
+              {errorMessage}
             </div>
             <button
               type="submit"
-              className="py-2 px-8 mb-5 bg-blue-500 focus:outline-none hover:bg-blue-400 rounded-lg text-white"
+              className="py-2 px-8 my-8 bg-blue-500 focus:outline-none hover:bg-blue-400 rounded-lg text-white"
             >
               Save
             </button>

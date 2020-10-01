@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import logo from '../assets/devchallenges.svg';
 import googleLogo from '../assets/Google.svg';
@@ -6,18 +6,30 @@ import facebookLogo from '../assets/Facebook.svg';
 import twitterLogo from '../assets/Twitter.svg';
 import githubLogo from '../assets/Gihub.svg';
 
+import api from '../api/index';
+
 import Footer from '../components/Footer';
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (token) {
+      props.history.push('/me');
+    }
+  }, [props.history]);
 
   const handleChangeEmail = (event) => {
+    setError(null);
     setEmail(event.target.value);
   };
 
   const handleChangePassword = (event) => {
+    setError(null);
     setPassword(event.target.value);
   };
 
@@ -26,9 +38,17 @@ const Login = () => {
     setIsSignUp(newState);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Button clicked!!!');
+    try {
+      const endpoint = isSignUp ? '/users' : '/users/login';
+      const response = await api.post(endpoint, { email, password });
+      localStorage.setItem('token', JSON.stringify(response.data.token));
+      props.history.push('/me');
+    } catch (error) {
+      setError(error);
+      console.log('error:', error);
+    }
   };
 
   const welcomeMessage = isSignUp ? (
@@ -42,6 +62,12 @@ const Login = () => {
   ) : (
     <h1 className="font-bold my-8">Login</h1>
   );
+
+  const errorMessage = error ? (
+    <div className="absolute top-sligth-over left-0 text-xs text-red-500">
+      An error ocurred during Authentication
+    </div>
+  ) : null;
 
   return (
     <div className="flex flex-col h-screen sm:w-1w sm:mx-auto p-5">
@@ -59,7 +85,7 @@ const Login = () => {
               onChange={handleChangeEmail}
             />
           </div>
-          <div className="flex items-baseline border border-gray-500 rounded-md p-3 mb-5">
+          <div className="flex items-baseline border border-gray-500 rounded-md p-3 mb-10 relative">
             <i className="fas fa-lock text-gray-600 mr-2"></i>
             <input
               type="password"
@@ -68,6 +94,7 @@ const Login = () => {
               value={password}
               onChange={handleChangePassword}
             />
+            {errorMessage}
           </div>
           <button
             className="bg-blue-bright hover:bg-blue-500 rounded-md text-white w-full p-2 mb-5 focus:outline-none"

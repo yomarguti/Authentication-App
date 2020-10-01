@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import logo from '../assets/devchallenges.svg';
 import profileImage from '../assets/profile.jpg';
 
-const NavBar = () => {
+const NavBar = (props) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    props.history.push('/');
   };
 
   const menu = showMenu ? (
@@ -19,7 +25,10 @@ const NavBar = () => {
         <i className="fas fa-user-friends"></i> <span>Group Chat</span>
       </a>
       <hr className=" border-gray-400 w-full" />
-      <button className="text-red-600 p-3 w-full text-left rounded-lg focus:outline-none">
+      <button
+        className="text-red-600 p-3 w-full text-left rounded-lg focus:outline-none"
+        onClick={handleLogout}
+      >
         <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
       </button>
     </div>
@@ -43,4 +52,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default withRouter(NavBar);

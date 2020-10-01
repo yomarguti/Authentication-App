@@ -315,6 +315,7 @@ module.exports = {
       auto: 'auto',
       '1/2': '50%',
       over: '180%',
+      'sligth-over': '110%',
     },
     letterSpacing: {
       tighter: '-0.05em',
