@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import NavBar from '../components/NavBar';
-import profileImage from '../assets/profile.jpg';
+import profilePlaceholder from '../assets/profile-placeholder.svg';
 import Footer from '../components/Footer';
 
 import useUserData from '../hooks/useUserData';
@@ -12,8 +12,13 @@ const EditProfile = (props) => {
   const { userData, setUserData } = useUserData(props);
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
-  const { email, name, phone, bio } = userData;
+  const { email, name, phone, bio, profileImage } = userData;
+
+  const srcAvatar = profileImage
+    ? `http://localhost:3001/users/me/avatar/${profileImage}`
+    : profilePlaceholder;
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -26,19 +31,23 @@ const EditProfile = (props) => {
     event.preventDefault();
 
     try {
-      let updateObject = { email, name, phone, bio };
+      let formData = new FormData();
 
-      if (password !== '') {
-        updateObject = { ...updateObject, password };
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('phone', phone);
+      formData.append('bio', bio);
+
+      if (password !== '') formData.append('password', password);
+      if (avatar) {
+        formData.append('profileImage', avatar);
+        formData.append('avatar', true);
       }
+
       const token = JSON.parse(localStorage.getItem('token'));
-      const user = await api.patch(
-        `/users/${userData.id}`,
-        { ...updateObject },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const user = await api.patch('/users/me', formData, {
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+      });
 
       if (user) {
         props.history.push('/me');
@@ -46,6 +55,10 @@ const EditProfile = (props) => {
     } catch (e) {
       setError(e);
     }
+  };
+
+  const handleImageChange = (event) => {
+    setAvatar(event.target.files[0]);
   };
 
   const errorMessage = error ? (
@@ -56,7 +69,7 @@ const EditProfile = (props) => {
 
   return (
     <div className="flex flex-col px-5 sm:items-center">
-      <NavBar />
+      <NavBar srcImage={srcAvatar} />
       <div className="sm:w-larger">
         <button
           className="sm:px-10 sm:py-6 text-blue-500 focus:outline-none hover:text-blue-400"
@@ -70,10 +83,16 @@ const EditProfile = (props) => {
           <p className="text-sm text-gray-500">Changes will be reflected to every services</p>
           <div className="flex items-center py-6">
             <div className="w-24 relative">
-              <button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <label className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer">
                 <i className="fas fa-camera text-white hover:text-gray-300 text-opacity-75"></i>
-              </button>
-              <img src={profileImage} alt="profile" className="w-full rounded-lg" />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleImageChange}
+                  accept="image/png, image/jpeg"
+                />
+              </label>
+              <img src={srcAvatar} alt="profile" className="w-full rounded-lg" />
             </div>
             <span className="text-gray-500 px-3 sm:px-10 sm:w-4/12">CHANGE PHOTO</span>
           </div>

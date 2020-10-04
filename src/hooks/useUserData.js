@@ -7,7 +7,7 @@ const useUserData = ({ history }) => {
     bio: '',
     email: '',
     phone: '',
-    password: '',
+    profileImage: null,
   };
 
   const [userData, setUserData] = useState(initialState);
@@ -19,8 +19,7 @@ const useUserData = ({ history }) => {
         const response = await api.get('/users/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const { user } = response.data;
-
+        const user = response.data.user;
         setUserData({ ...user });
       } catch (error) {
         localStorage.removeItem('token');

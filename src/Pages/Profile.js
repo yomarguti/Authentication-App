@@ -8,13 +8,18 @@ import useUserData from '../hooks/useUserData';
 
 const Profile = (props) => {
   const {
-    userData: { name, bio, email, phone },
+    userData: { name, bio, email, phone, profileImage },
   } = useUserData(props);
+  console.log('profileImage:', profileImage);
+
+  const srcAvatar = profileImage
+    ? `http://localhost:3001/users/me/avatar/${profileImage}`
+    : profilePlaceholder;
 
   return (
     <div className="flex flex-col sm:items-center">
       <div className="px-5 w-full">
-        <NavBar />
+        <NavBar srcImage={srcAvatar} />
       </div>
       <div>
         <h1 className="text-center text-4xl">Personal info</h1>
@@ -39,7 +44,7 @@ const Profile = (props) => {
           <ul className="divide-y divide-gray-400">
             <li className="flex justify-between sm:justify-start items-center px-5 h-32">
               <span className="text-gray-500 sm:px-10 sm:w-4/12">PHOTO</span>
-              <img src={profilePlaceholder} alt="profile" className="w-24 rounded-lg" />
+              <img src={srcAvatar} alt="profile" className="w-24 rounded-lg" />
             </li>
             <li className="flex justify-between sm:justify-start items-center px-5 h-24">
               <span className="text-gray-500 sm:px-10  sm:w-4/12">NAME</span>
