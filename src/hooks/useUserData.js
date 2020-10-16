@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/index';
 
-const useUserData = ({ history }) => {
+const useUserData = ({ history, match }) => {
   const initialState = {
     name: '',
     bio: '',
@@ -10,12 +10,19 @@ const useUserData = ({ history }) => {
     profileImage: null,
   };
 
+  const { token: urlToken } = match.params;
+  const localToken = JSON.parse(localStorage.getItem('token'));
+  const token = localToken ? localToken : urlToken;
+
+  if (urlToken && !localToken) {
+    localStorage.setItem('token', JSON.stringify(urlToken));
+  }
+
   const [userData, setUserData] = useState(initialState);
 
   useEffect(() => {
     const fetchAuth = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem('token'));
         const response = await api.get('/users/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -29,7 +36,7 @@ const useUserData = ({ history }) => {
     };
 
     fetchAuth();
-  }, [history]);
+  }, [history, token]);
 
   return {
     userData,

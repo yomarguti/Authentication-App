@@ -107,24 +107,24 @@ const Login = (props) => {
           <p className="pb-2 text-gray-500">or continue with these social profile</p>
           <ul className="flex justify-around w-10/12">
             <li>
-              <button className="focus:outline-none">
+              <a href="http://localhost:3001/auth/google" className="focus:outline-none">
                 <img src={googleLogo} alt="Google Logo" />
-              </button>
+              </a>
             </li>
             <li>
-              <button className="focus:outline-none">
+              <a href="/" className="focus:outline-none">
                 <img src={facebookLogo} alt="Google Logo" />
-              </button>
+              </a>
             </li>
             <li>
-              <button className="focus:outline-none">
+              <a href="/" className="focus:outline-none">
                 <img src={twitterLogo} alt="Google Logo" />
-              </button>
+              </a>
             </li>
             <li>
-              <button className="focus:outline-none">
+              <a href="/" className="focus:outline-none">
                 <img src={githubLogo} alt="Github Logo" />
-              </button>
+              </a>
             </li>
           </ul>
         </div>

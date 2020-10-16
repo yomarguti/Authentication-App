@@ -1,73 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 
 import profilePlaceholder from '../assets/profile-placeholder.svg';
 import Footer from '../components/Footer';
 
 import useUserData from '../hooks/useUserData';
+import ShowProfile from '../components/ShowProfile';
+import EditProfile from '../components/EditProfile';
+
+import api from '../api/index';
 
 const Profile = (props) => {
-  const {
-    userData: { name, bio, email, phone, profileImage },
-  } = useUserData(props);
-  console.log('profileImage:', profileImage);
+  const { userData, setUserData } = useUserData(props);
+  const [editMode, setEditMode] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
-  const srcAvatar = profileImage
-    ? `http://localhost:3001/users/me/avatar/${profileImage}`
+  const srcAvatar = userData.profileImage
+    ? `http://localhost:3001/users/me/avatar/${userData.profileImage}`
     : profilePlaceholder;
+
+  const handleChangeMode = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleChangeForm = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setError(null);
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const handleImageChange = (event) => {
+    setAvatar(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      let formData = new FormData();
+      const { name, email, phone, bio } = userData;
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('phone', phone);
+      formData.append('bio', bio);
+
+      if (password !== '') formData.append('password', password);
+      if (avatar) {
+        formData.append('profileImage', avatar);
+        formData.append('avatar', true);
+      }
+
+      const user = await api.patch('/users/me', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (user) {
+        setEditMode(false);
+      }
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  const showContent = editMode ? (
+    <EditProfile
+      profileData={{ ...userData }}
+      srcAvatar={srcAvatar}
+      handleChange={handleChangeForm}
+      password={password}
+      setPassword={setPassword}
+      error={error}
+      handleImageChange={handleImageChange}
+      handleSubmit={handleSubmit}
+      onChangeMode={handleChangeMode}
+    />
+  ) : (
+    <ShowProfile
+      profileData={{ ...userData }}
+      srcAvatar={srcAvatar}
+      onChangeMode={handleChangeMode}
+    />
+  );
 
   return (
     <div className="flex flex-col sm:items-center">
       <div className="px-5 w-full">
         <NavBar srcImage={srcAvatar} />
       </div>
-      <div>
-        <h1 className="text-center text-4xl">Personal info</h1>
-        <p className="text-center text-lg text-gray-500 pb-10">
-          Basic info, like your name and photo
-        </p>
-        <div className="sm:border rounded-lg sm:divide-y divide-gray-400 sm:w-larger pb-3">
-          <div className="flex w-full justify-between px-5 pb-10 sm:py-3 sm:items-center">
-            <div className="flex flex-col items-start w-1/2 sm:px-10">
-              <span className="text-2xl">Profile</span>
-              <span className="text-sm text-gray-500">
-                Some info may be visible to other people
-              </span>
-            </div>
-            <button
-              className="border border-gray-400 rounded-large m-5 py-3 px-6 focus:outline-none hover:bg-gray-400"
-              onClick={() => props.history.push('/edit-profile')}
-            >
-              Edit
-            </button>
-          </div>
-          <ul className="divide-y divide-gray-400">
-            <li className="flex justify-between sm:justify-start items-center px-5 h-32">
-              <span className="text-gray-500 sm:px-10 sm:w-4/12">PHOTO</span>
-              <img src={srcAvatar} alt="profile" className="w-24 rounded-lg" />
-            </li>
-            <li className="flex justify-between sm:justify-start items-center px-5 h-24">
-              <span className="text-gray-500 sm:px-10  sm:w-4/12">NAME</span>
-              <span className="text-lg">{name}</span>
-            </li>
-            <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
-              <span className="text-gray-500 sm:px-10 sm:w-4/12">BIO</span>
-              <span className="text-lg">{bio}</span>
-            </li>
-            <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
-              <span className="text-gray-500 sm:px-10 sm:w-4/12">PHONE</span>
-              <span className="text-lg">{phone}</span>
-            </li>
-            <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
-              <span className="text-gray-500 sm:px-10 sm:w-4/12">EMAIL</span>
-              <span className="text-lg">{email}</span>
-            </li>
-            <li className="flex justify-between sm:justify-start  items-center px-5 h-24">
-              <span className="text-gray-500 sm:px-10 sm:w-4/12">PASSWORD</span>
-              <span className="text-lg">**********</span>
-            </li>
-          </ul>
-        </div>
+      <div className="sm:w-larger">
+        {showContent}
         <Footer />
       </div>
     </div>
