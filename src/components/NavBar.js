@@ -34,7 +34,7 @@ const NavBar = (props) => {
   ) : null;
 
   return (
-    <div className="flex py-6 justify-between w-full">
+    <div className="flex py-6 justify-between items-center w-full">
       <a href="/">
         <img src={logo} alt="Logo" className="" />
       </a>
