@@ -10,6 +10,29 @@ import api from '../api/index';
 
 import Footer from '../components/Footer';
 
+const OAUTH_BUTTONS = [
+  {
+    alt: 'Google Logo',
+    src: googleLogo,
+    url: '/auth/google',
+  },
+  {
+    alt: 'Facebook Logo',
+    src: facebookLogo,
+    url: '/',
+  },
+  {
+    alt: 'Twitter Logo',
+    src: twitterLogo,
+    url: '/',
+  },
+  {
+    alt: 'Github Logo',
+    src: githubLogo,
+    url: '/auth/github',
+  },
+];
+
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,6 +92,23 @@ const Login = (props) => {
     </div>
   ) : null;
 
+  const oauthRow = (
+    <ul className="flex justify-around w-10/12">
+      {OAUTH_BUTTONS.map(({ alt, src, url }) => {
+        return (
+          <li key={alt}>
+            <a
+              href={`https://auth-app-dev-challenge.herokuapp.com${url}`}
+              className="focus:outline-none"
+            >
+              <img src={src} alt={alt} />
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <div className="flex flex-col h-screen sm:w-1w sm:mx-auto p-5">
       <div className="flex flex-col items-start pb-10 sm:p-12  sm:border border-gray-400 rounded-lg sm:mt-32">
@@ -105,37 +145,7 @@ const Login = (props) => {
         </form>
         <div className="flex flex-col mb-5 w-full items-center">
           <p className="pb-2 text-gray-500">or continue with these social profile</p>
-          <ul className="flex justify-around w-10/12">
-            <li>
-              <a
-                href="https://auth-app-dev-challenge.herokuapp.com/auth/google"
-                className="focus:outline-none"
-              >
-                <img src={googleLogo} alt="Google Logo" />
-              </a>
-            </li>
-            <li>
-              <a href="/" className="focus:outline-none">
-                <img src={facebookLogo} alt="Google Logo" />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://auth-app-dev-challenge.herokuapp.com/auth/twitter"
-                className="focus:outline-none"
-              >
-                <img src={twitterLogo} alt="Google Logo" />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://auth-app-dev-challenge.herokuapp.com/auth/github"
-                className="focus:outline-none"
-              >
-                <img src={githubLogo} alt="Github Logo" />
-              </a>
-            </li>
-          </ul>
+          {oauthRow}
         </div>
         <div className="flex justify-center w-full">
           <p className="text-gray-500">Already a member?</p>
