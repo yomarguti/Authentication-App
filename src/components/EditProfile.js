@@ -23,13 +23,13 @@ const EditProfile = ({
   return (
     <>
       <button
-        className="sm:px-10 sm:py-6 text-blue-500 focus:outline-none hover:text-blue-400"
+        className="sm:px-10 px-4 sm:py-6 text-blue-500 focus:outline-none hover:text-blue-400"
         onClick={() => onChangeMode()}
       >
         <i className="fas fa-angle-left pr-2"></i>
         Back
       </button>
-      <div className="sm:border border-gray-400 rounded-lg mb-3 sm:px-10">
+      <div className="sm:border border-gray-400 rounded-lg mb-3 px-4 sm:px-10">
         <h2 className="text-2xl mt-6">Change Info</h2>
         <p className="text-sm text-gray-500">Changes will be reflected to every services</p>
         <div className="flex items-center py-6">

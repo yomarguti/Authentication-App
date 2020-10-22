@@ -107,7 +107,10 @@ const Login = (props) => {
           <p className="pb-2 text-gray-500">or continue with these social profile</p>
           <ul className="flex justify-around w-10/12">
             <li>
-              <a href="http://localhost:3001/auth/google" className="focus:outline-none">
+              <a
+                href="https://auth-app-dev-challenge.herokuapp.com/auth/google"
+                className="focus:outline-none"
+              >
                 <img src={googleLogo} alt="Google Logo" />
               </a>
             </li>
@@ -117,12 +120,18 @@ const Login = (props) => {
               </a>
             </li>
             <li>
-              <a href="/" className="focus:outline-none">
+              <a
+                href="https://auth-app-dev-challenge.herokuapp.com/auth/twitter"
+                className="focus:outline-none"
+              >
                 <img src={twitterLogo} alt="Google Logo" />
               </a>
             </li>
             <li>
-              <a href="/" className="focus:outline-none">
+              <a
+                href="https://auth-app-dev-challenge.herokuapp.com/auth/github"
+                className="focus:outline-none"
+              >
                 <img src={githubLogo} alt="Github Logo" />
               </a>
             </li>

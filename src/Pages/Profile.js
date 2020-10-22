@@ -16,8 +16,11 @@ const Profile = (props) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [avatar, setAvatar] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
 
-  const srcAvatar = userData.profileImage
+  const srcAvatar = filePreview
+    ? filePreview
+    : userData.profileImage
     ? `http://localhost:3001/users/me/avatar/${userData.profileImage}`
     : profilePlaceholder;
 
@@ -34,6 +37,7 @@ const Profile = (props) => {
 
   const handleImageChange = (event) => {
     setAvatar(event.target.files[0]);
+    setFilePreview(URL.createObjectURL(event.target.files[0]));
   };
 
   const handleSubmit = async (event) => {

@@ -11,10 +11,8 @@ const useUserData = ({ history, match }) => {
   };
 
   const { token: urlToken } = match.params;
-  const localToken = JSON.parse(localStorage.getItem('token'));
-  const token = localToken ? localToken : urlToken;
 
-  if (urlToken && !localToken) {
+  if (urlToken) {
     localStorage.setItem('token', JSON.stringify(urlToken));
   }
 
@@ -23,9 +21,7 @@ const useUserData = ({ history, match }) => {
   useEffect(() => {
     const fetchAuth = async () => {
       try {
-        const response = await api.get('/users/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await api.get('/users/me');
         const user = response.data.user;
         setUserData({ ...user });
       } catch (error) {
@@ -36,7 +32,7 @@ const useUserData = ({ history, match }) => {
     };
 
     fetchAuth();
-  }, [history, token]);
+  }, [history]);
 
   return {
     userData,
