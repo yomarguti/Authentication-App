@@ -1,7 +1,6 @@
 import React from 'react';
 
 const EditProfile = ({
-  history,
   profileData,
   srcAvatar,
   handleChange,

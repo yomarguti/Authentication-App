@@ -7,6 +7,7 @@ import twitterLogo from '../assets/Twitter.svg';
 import githubLogo from '../assets/Gihub.svg';
 
 import api from '../api/index';
+import { config } from '../constants';
 
 import Footer from '../components/Footer';
 
@@ -97,10 +98,7 @@ const Login = (props) => {
       {OAUTH_BUTTONS.map(({ alt, src, url }) => {
         return (
           <li key={alt}>
-            <a
-              href={`https://auth-app-dev-challenge.herokuapp.com${url}`}
-              className="focus:outline-none"
-            >
+            <a href={`${config.url.API_URL}${url}`} className="focus:outline-none">
               <img src={src} alt={alt} />
             </a>
           </li>

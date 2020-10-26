@@ -1,7 +1,8 @@
-const axios = require('axios');
+import axios from 'axios';
+import { config } from '../constants';
 
 const instance = axios.create({
-  baseURL: 'https://auth-app-dev-challenge.herokuapp.com/api',
+  baseURL: `${config.url.API_URL}/api`,
 });
 
 instance.interceptors.request.use(function (config) {
