@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const EditProfile = ({
   profileData,
   srcAvatar,
-  handleChange,
-  password,
-  setPassword,
   error,
   handleImageChange,
   handleSubmit,
   onChangeMode,
+  handleError,
 }) => {
-  const { email, name, phone, bio } = profileData;
+  const [formData, setFormData] = useState({ ...profileData, password: '' });
+  const { email, name, phone, bio, password } = formData;
+
+  const handleChangeForm = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    handleError(null);
+    setFormData({ ...formData, [name]: value });
+  };
 
   const errorMessage = error ? (
     <div className="absolute top-sligth-over left-0 text-xs text-red-500">
@@ -23,7 +29,7 @@ const EditProfile = ({
     <>
       <button
         className="sm:px-10 px-4 sm:py-6 text-blue-500 focus:outline-none hover:text-blue-400"
-        onClick={() => onChangeMode()}
+        onClick={onChangeMode}
       >
         <i className="fas fa-angle-left pr-2"></i>
         Back
@@ -46,7 +52,7 @@ const EditProfile = ({
           </div>
           <span className="text-gray-500 px-3 sm:px-10 sm:w-4/12">CHANGE PHOTO</span>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(event) => handleSubmit(event, { email, name, phone, bio, password })}>
           <div className="flex flex-col pb-4">
             <label htmlFor="name" className="pb-1">
               Name
@@ -56,7 +62,7 @@ const EditProfile = ({
               name="name"
               id="name"
               value={name}
-              onChange={handleChange}
+              onChange={handleChangeForm}
               placeholder="Enter your name..."
               className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
             />
@@ -70,7 +76,7 @@ const EditProfile = ({
               id="bio"
               rows="3"
               value={bio}
-              onChange={handleChange}
+              onChange={handleChangeForm}
               placeholder="Enter your bio..."
               className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
             ></textarea>
@@ -84,7 +90,7 @@ const EditProfile = ({
               id="phone"
               name="phone"
               value={phone}
-              onChange={handleChange}
+              onChange={handleChangeForm}
               placeholder="Enter your phone..."
               className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
             />
@@ -98,7 +104,7 @@ const EditProfile = ({
               id="email"
               name="email"
               value={email}
-              onChange={handleChange}
+              onChange={handleChangeForm}
               placeholder="Enter your email..."
               className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
             />
@@ -111,7 +117,7 @@ const EditProfile = ({
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChangeForm}
               name="password"
               placeholder="Enter your password..."
               className="focus:outline-none border border-gray-300 p-4 rounded-lg sm:w-3/5"
