@@ -41,7 +41,7 @@ const NavBar = (props) => {
 
       <div className="flex items-center relative cursor-pointer" onClick={handleMenu}>
         <img src={props.srcImage} alt="Profile" className="w-10 h-10 rounded-lg" />
-        <span className="text-sm font-bold pl-3 hidden sm:inline">Yomar Gutierrez</span>
+        <span className="text-sm font-bold pl-3 hidden sm:inline">{props.username}</span>
         <button className="focus:outline-none pl-2 hidden sm:block">
           <i className="fas fa-angle-down"></i>
         </button>
