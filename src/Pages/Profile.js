@@ -87,7 +87,7 @@ const Profile = (props) => {
   return (
     <div className="flex flex-col sm:items-center">
       <div className="px-5 w-full">
-        <NavBar srcImage={srcAvatar} />
+        <NavBar srcImage={srcAvatar} username={userData.name} />
       </div>
       <div className="sm:w-larger">
         {showContent}
