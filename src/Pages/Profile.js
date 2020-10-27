@@ -9,6 +9,7 @@ import ShowProfile from '../components/ShowProfile';
 import EditProfile from '../components/EditProfile';
 
 import api from '../api/index';
+import { config } from '../constants';
 
 const Profile = (props) => {
   const { userData, setUserData } = useUserData(props);
@@ -20,7 +21,7 @@ const Profile = (props) => {
   const srcAvatar = filePreview
     ? filePreview
     : userData.profileImage
-    ? `http://localhost:3001/users/me/avatar/${userData.profileImage}`
+    ? `${config.url.API_URL}/users/me/avatar/${userData.profileImage}`
     : profilePlaceholder;
 
   const handleChangeMode = () => {
