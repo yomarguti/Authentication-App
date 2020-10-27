@@ -9,11 +9,11 @@ import ShowProfile from '../components/ShowProfile';
 import EditProfile from '../components/EditProfile';
 
 import api from '../api/index';
+import { config } from '../constants';
 
 const Profile = (props) => {
   const { userData, setUserData } = useUserData(props);
   const [editMode, setEditMode] = useState(false);
-  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
@@ -21,18 +21,11 @@ const Profile = (props) => {
   const srcAvatar = filePreview
     ? filePreview
     : userData.profileImage
-    ? `http://localhost:3001/users/me/avatar/${userData.profileImage}`
+    ? `${config.url.API_URL}/users/me/avatar/${userData.profileImage}`
     : profilePlaceholder;
 
   const handleChangeMode = () => {
     setEditMode(!editMode);
-  };
-
-  const handleChangeForm = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setError(null);
-    setUserData({ ...userData, [name]: value });
   };
 
   const handleImageChange = (event) => {
@@ -40,12 +33,13 @@ const Profile = (props) => {
     setFilePreview(URL.createObjectURL(event.target.files[0]));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, formDataObject) => {
     event.preventDefault();
+
+    const { name, email, phone, bio, password } = formDataObject;
 
     try {
       let formData = new FormData();
-      const { name, email, phone, bio } = userData;
       formData.append('name', name);
       formData.append('email', email);
       formData.append('phone', phone);
@@ -57,12 +51,15 @@ const Profile = (props) => {
         formData.append('avatar', true);
       }
 
-      const user = await api.patch('/users/me', formData, {
+      const response = await api.patch('/users/me', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
+      const { user } = response.data;
+
       if (user) {
         setEditMode(false);
+        setUserData({ ...user });
       }
     } catch (e) {
       setError(e);
@@ -73,10 +70,8 @@ const Profile = (props) => {
     <EditProfile
       profileData={{ ...userData }}
       srcAvatar={srcAvatar}
-      handleChange={handleChangeForm}
-      password={password}
-      setPassword={setPassword}
       error={error}
+      handleError={setError}
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
       onChangeMode={handleChangeMode}
