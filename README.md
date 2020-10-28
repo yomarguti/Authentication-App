@@ -43,9 +43,9 @@
 
 ## Overview
 
-![screenshot](https://www.dropbox.com/s/i7yonnb8431k8qk/Login.png)
-![screenshot](https://www.dropbox.com/s/m36edbyuwaz6m8m/Profile.png)
-![screenshot](https://www.dropbox.com/s/zebbrpwcnwdxuel/Edit.png)
+![screenshot](/screenshots/Login.png?raw=true "Login Page")
+![screenshot](/screenshots/Profile.png?raw=true "Profile Page")
+![screenshot](/screenshots/Edit.png?raw=true "Edit Page")
 
 Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
 
