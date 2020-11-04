@@ -43,9 +43,9 @@
 
 ## Overview
 
-![screenshot](/screenshots/Login.png?raw=true "Login Page")
-![screenshot](/screenshots/Profile.png?raw=true "Profile Page")
-![screenshot](/screenshots/Edit.png?raw=true "Edit Page")
+![screenshot](/screenshots/Login.png?raw=true 'Login Page')
+![screenshot](/screenshots/Profile.png?raw=true 'Profile Page')
+![screenshot](/screenshots/Edit.png?raw=true 'Edit Page')
 
 You can try a demo of this project at <a href="https://determined-goldstine-a738ad.netlify.app/" target="_blank">Netlify</a>. The api is built on Nodejs. The backend is on another <a href="https://github.com/yomarguti/backend-AuthenticationApp">repo</a>. I improved my knowledge on:
 
@@ -60,8 +60,9 @@ You can try a demo of this project at <a href="https://determined-goldstine-a738
 <!-- This section should list any major frameworks that you built your project using. Here are a few examples.-->
 
 - [React](https://reactjs.org/)
-- [Vue.js](https://vuejs.org/)
+- [Create React App](https://create-react-app.dev/)
 - [Tailwind](https://tailwindcss.com/)
+- [Node.js](https://nodejs.org/)
 
 ## Features
 
