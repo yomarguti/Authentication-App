@@ -16,7 +16,7 @@ const NavBar = (props) => {
   };
 
   const menu = showMenu ? (
-    <div className="flex flex-col bg-gray-100 border border-gray-400 items-start rounded-lg absolute sm:w-over px-3 py-2 top-over right-0 menu w-40">
+    <div className="flex flex-col bg-gray-100 border border-gray-400 items-start rounded-lg absolute sm:w-56 px-3 py-2 top-over right-0 menu w-40">
       <a href="/me" className="text-gray-700 w-full p-3 hover:bg-gray-200 rounded-lg">
         <i className="fas fa-user-circle"></i> <span>My profile</span>
       </a>
