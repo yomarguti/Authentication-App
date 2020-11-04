@@ -12,9 +12,9 @@
       Demo
     </a>
     <span> | </span>
-    <a href="https://github.com/yomarguti/Authentication-App">
+    <span>
       Solution:
-    </a>
+    </span>
         <a href="https://github.com/yomarguti/Authentication-App">
       Client
     </a>
@@ -47,12 +47,13 @@
 ![screenshot](/screenshots/Profile.png?raw=true 'Profile Page')
 ![screenshot](/screenshots/Edit.png?raw=true 'Edit Page')
 
-Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
+You can try a demo of this project at <a href="https://determined-goldstine-a738ad.netlify.app/" target="_blank">Netlify</a>. The api is built on Nodejs. The backend is on another <a href="https://github.com/yomarguti/backend-AuthenticationApp">repo</a>. I improved my knowledge on:
 
-- Where can I see your demo?
-- What was your experience?
-- What have you learned/improved?
-- Your wisdom? :)
+- Local authentication and OAUTH
+- Tailwind Usage
+- React Hooks
+- Deployment process
+
 
 ### Built With
 
@@ -77,7 +78,19 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/your-user-name/your-project-name
+$ git clone https://github.com/yomarguti/Authentication-App
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm start
+```
+To clone and run the backend of this app you need to run:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/yomarguti/backend-AuthenticationApp
 
 # Install dependencies
 $ npm install
@@ -90,12 +103,16 @@ $ npm start
 
 <!-- This section should list any articles or add-ons/plugins that helps you to complete the project. This is optional but it will help you in the future. For example -->
 
-- [Steps to replicate a design with only HTML and CSS](https://devchallenges-blogs.web.app/how-to-replicate-design/)
-- [Node.js](https://nodejs.org/)
-- [Marked - a markdown parser](https://github.com/chjj/marked)
+- [Using Tailwind CSS with Create React App](https://daveceddia.com/tailwind-create-react-app/)
+- [Node Authentication using passport.js](https://dev.to/ganeshmani/node-authentication-using-passport-js-part-1-53k7)
+- [Using Development and Production Variables for React apps with process.env.NODE_ENV](https://medium.com/@a.carreras.c/development-and-production-variables-for-react-apps-c04af8b430a5)
+- [Netlify and React Router](https://medium.com/@sschannak/netlify-and-react-router-1537aebe6256)
+- [Displaying a preview of an image upload in React](https://medium.com/@650egor/react-30-day-challenge-day-2-image-upload-preview-2d534f8eaaa)
+
+
 
 ## Contact
 
-- Website [your-website.com](https://{your-web-site-link})
-- GitHub [@your-username](https://{github.com/your-usermame})
-- Twitter [@your-twitter](https://{twitter.com/your-username})
+- Website [http://yomargutierrez.co](http://yomargutierrez.co)
+- GitHub [@yomarguti](https://github.com/yomarguti)
+- Twitter [@yomarguti](https://twitter.com/yomarguti)
